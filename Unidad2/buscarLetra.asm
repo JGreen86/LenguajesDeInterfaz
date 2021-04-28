@@ -1,16 +1,18 @@
+extern printf ; hacemos el import de printf
+
 section .data
-    cadena db "abacda"
-    lcad dd $-cadena
+    cadena db "abacdaaza"
+    lcad equ $-cadena
     letra db "a"
+    msjResultado db "contador = %d",10,0
 section .bss
-    contador resd 1
 global main
 section .text
 main:
     mov edi,0 ; representa la variable i
-    mov ecx,0 ; representa nuestro contador
+    mov rcx,0 ; representa nuestro contador
 cicloFor:
-    cmp edi,[lcad]
+    cmp edi,lcad
     jge imprimir ; if(edi >= lcad) imprimir
     mov al,[cadena+edi] ; equivalente a cadena[edi]
     inc edi ; nuestro i++
@@ -18,13 +20,13 @@ cicloFor:
     jne cicloFor ; if(al != letra) regresamos al ciclo for
     inc ecx
     jmp cicloFor
+
 imprimir:
-    mov [contador],ecx ; contador = ecx
-    mov rax,1
-    mov rdi,1
-    mov rsi,contador
-    mov rdx,4
-    syscall
+    push rbp
+    mov rdi,msjResultado ; primer parametro de la funcion printf
+    mov rsi,rcx ; segundo parametro de la funcion printf
+    call printf
+    pop rbp
 salir:
     mov rax,60
     mov rdi,0
