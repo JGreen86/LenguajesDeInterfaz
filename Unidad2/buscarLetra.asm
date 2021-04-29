@@ -25,6 +25,9 @@ imprimir:
     push rbp
     mov rdi,msjResultado ; primer parametro de la funcion printf
     mov rsi,rcx ; segundo parametro de la funcion printf
+    ; si hubiera más parámetros se han de especificar en los registros:
+    ; rdx, rcx, r8 y r9, siguiendo ese orden.
+    ; De ocupar parámetros, utilizar la pila.
     call printf
     pop rbp
 salir:
