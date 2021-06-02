@@ -1,6 +1,9 @@
+extern printf
+
 section .data
-    varX dd 5
-    varY dd 6
+    varX dd 8
+    varY dd 8
+    msj db "Resultado = %d",10,0
 section .bss
 
 global main
@@ -16,7 +19,8 @@ main:
     push rbx ; pasamos segundo parametro 'y'
     call miFuncion
     ; resultado se encuentra en el tope de la pila
-    pop rdi
+    pop rsi
+    call imprimir
     jmp salir
 
 miFuncion:
@@ -28,7 +32,10 @@ miFuncion:
     mov [rsp+16],rdi ; movemos la direccion de retorno a rsp+16
     add rsp,16
     ret ; regresar a la posicion donde estaba al momento de llamar a miFuncion
-
+imprimir:
+    mov rdi,msj
+    call printf
+    ret
 salir:
     mov rax,60
     mov rdi,0
