@@ -1,3 +1,5 @@
+// sudo apt update
+// sudo apt install socat
 // Compilar: gcc -m64 serialport.c -o serialport
 // Ejecutar: ./serialport
 
@@ -10,7 +12,7 @@
 #include <errno.h>
 #include <string.h>
 
-const char *puerto="/dev/pts/1";
+const char *puerto="/dev/pts/3"; // puerto usado para enviar datos
 int tam = 11;
 
 int main()
@@ -43,7 +45,7 @@ int main()
         // obtenemos la configuración actual del puerto
         tcgetattr(fd, &configuracionPuertoSerial);
         // definimos un baud rate de 9600 para envio y recepción
-        cfsetispeed(&configuracionPuertoSerial,B9600);
+        cfsetispeed(&configuracionPuertoSerial,B9600); // Baud rate a 9600
         cfsetospeed(&configuracionPuertoSerial,B9600);
         // sin bit de paridad
         configuracionPuertoSerial.c_cflag &= ~PARENB;
