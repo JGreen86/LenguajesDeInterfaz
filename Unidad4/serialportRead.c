@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <string.h>
 
-const char *puerto="/dev/pts/3"; // puerto usado para enviar datos
+const char *puerto="/dev/pts/4"; // puerto usado para recibir datos
 int tam = 11;
 
 int main()
@@ -21,9 +21,9 @@ int main()
     // nombre del puerto serial
     //char puerto[]="/dev/pts/0";
     // cadena que enviaremos por el puerto serial
-    char datos_salida[]="hola mundo!!!\n";
+    char datos_recibidos[15];
     // cantidad de bytes enviados
-    int bytes_enviados = 0;
+    int bytes_recibidos = 0;
     // estructura que almacena la configuración del puerto
     struct termios configuracionPuertoSerial;
 
@@ -63,17 +63,21 @@ int main()
         // modo de operación
         configuracionPuertoSerial.c_iflag &= ~(ICANON | ECHO | ECHOE | ISIG);
         // leer al menos 10 caracteres
-        //configuracionPuertoSerial.c_cc[VMIN] = 10;
+        configuracionPuertoSerial.c_cc[VMIN] = 10;
         // tiempo de espera hasta que se reciban datos
-        //configuracionPuertoSerial.c_cc[VTIME] = 0; // siempre a la espera
+        configuracionPuertoSerial.c_cc[VTIME] = 0; // siempre a la espera
         // hacemos que el puerto tome la configuración indicada
         tcsetattr(fd,TCSANOW,&configuracionPuertoSerial);
         // indicamos que estamos realizando un envio
-        printf("\nEnviando ...\n");
-        // llamada al sistema sys_write
-    bytes_enviados = write(fd,datos_salida,sizeof(datos_salida)-1);
-        // imprimimos la cantidad de bytes enviados
-        printf("\n%d bytes enviados ...\n",bytes_enviados);
+        printf("\nRecibiendo ...\n");
+        // llamada al sistema sys_read
+        while(1) {
+            bytes_recibidos = read(fd,datos_recibidos,sizeof(datos_recibidos)-1);
+            // imprimimos la cantidad de bytes enviados
+            printf("\n%d bytes recibidos ...\n",bytes_recibidos);
+            // imprimir datos recibidos
+            printf("%s",datos_recibidos);
+        }
     }
     // llamada al sistema sys_close para cerrar el puerto
     printf("\nCerrando puerto %s ...\n\n",puerto);
