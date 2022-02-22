@@ -1,3 +1,4 @@
+; copia "Hola\n" de msj a var1
 section .data
     msj db "Hola mundo!!!",10
     lenMsj equ $-msj
@@ -17,5 +18,5 @@ main:
     syscall ; genera una llamada al sistema en 64 bits
 
     mov rax,60 ; selecciona la llamada al sistema sys_exit
-    mov rbx,0 ; indicamos que el programa termina sin errores
+    mov rdi,0 ; indicamos que el programa termina sin errores
     syscall
