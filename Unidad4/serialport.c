@@ -28,11 +28,11 @@ int main()
     struct termios configuracionPuertoSerial;
 
     asm (".intel_syntax noprefix");
-    asm ("mov rax,4");
-    asm ("mov rbx,1");
-    asm ("mov rcx,puerto");
+    asm ("mov rax,1");
+    asm ("mov rdi,1");
+    asm ("mov rsi,puerto");
     asm ("mov rdx,[tam]");
-    asm ("int 128");
+    asm ("syscall");
     asm (".att_syntax noprefix");
     int fd; // descriptor del archivo
     // llamada al sistema sys_open para abrir el puerto
