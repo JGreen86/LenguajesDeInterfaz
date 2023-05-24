@@ -11,12 +11,17 @@ main:
 loop:
 	cmp r9,0
 	jz salir
-
+	pop rsi
+	mov rcx,0
+longitud:
+	cmp [rsi+rcx], BYTE 0
+	je imprimir
+	inc rcx
+	jmp longitud
 imprimir:
 	mov rax,1
 	mov rdi,1
-	pop rsi
-	mov rdx,1
+	mov rdx,rcx
 	syscall
 
 	mov rax,1
