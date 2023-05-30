@@ -11,11 +11,16 @@ main:
 loop:
 	cmp r9,0
 	jz salir
+	pop rsi
+	mov rdx,0
+while:
+	cmp [rsi+rdx], BYTE 0
+	je imprimir
+	inc rdx
+	jmp while
 imprimir:
 	mov rax,1
 	mov rdi,1
-	pop rsi
-	mov rdx,1
 	syscall
 
 	mov rax,1
